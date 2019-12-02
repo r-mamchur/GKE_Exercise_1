@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: moodle-initial-job
+spec:
+  template:
+    metadata:
+      labels:
+        job: moodle-initial-job
+    spec:
+      nodeSelector:
+        node: "web"
+      containers:
+      - name: main
+        image: rmamchur/apache:2
+        volumeMounts:
+        - name: moodle-pvc
+          mountPath: /var/www
+        - name: git-rm
+          mountPath: /git_rm
+        command: [ "sh", "-c", "chmod 777 /git_rm/moodle_init.sh ; /git_rm/moodle_init.sh " ]
+      restartPolicy: OnFailure
+      volumes:
+      - name: moodle-pvc 
+        persistentVolumeClaim: 
+          claimName: moodle-pvc 
+      - name:  git-rm
+        gitRepo:
+          repository: https://github.com/r-mamchur/GKE_Exercise_1.git
+          revision: master
+          directory: .

@@ -15,6 +15,6 @@ php /var/www/html/admin/cli/install.php --wwwroot=http://moodle.example.com --da
 
 chown apache:apache /var/www/ -R
 
-echo "Ok" > /var/www/ready
+echo "<html><body><h1>I'm ready.</h1></body></html>" > /var/www/html/ready.html
 
-chmod 777 /var/www/ready 
+chmod 777 /var/www/html/ready.html

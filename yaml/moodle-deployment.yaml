@@ -17,7 +17,7 @@ spec:
         readinessProbe:
           periodSeconds: 10
           httpGet:
-            path: /install/welcome.html 
+            path: /ready.html
             port: 80
         ports:
         - name: http
