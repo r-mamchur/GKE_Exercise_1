@@ -4,8 +4,10 @@
 
 ## Description
 Apache and MySql images is built - Dockerfiles are here.   
-At first each component is initialized whith Workload ***kind: Job*** or ***Pod*** then runs as ***Deployment*** or ***ReplicationSet***.    
 In MySql conteiner user is *****mysql*****, but Apache  user is *****root*****.
+
+At first each component is initialized by Workload ***kind: Job*** then runs as ***Deployment*** or ***ReplicationSet***.   
+Script ***moodle_init.sh*** is ***`mounted`*** in Pod directly from github whith ***gitRepo volume***.
 
 ***wp-config.php*** is mounted as ***secret***.   
 ***kube-conf*** will be genereted by terraform from template. It allows access to the cluster with ***kubectl***.   
@@ -22,3 +24,6 @@ $ kubectl get svc moodle-svc-loadbalancer --kubeconfig="./kube-conf"
 $ kubectl get svc wp-svc-loadbalancer --kubeconfig="./kube-conf"
 $ kubectl get ingress  --kubeconfig="./kube-conf"
 ```
+## Note   
+Start ingress takes 10 minutes or more.
+There are problems whith ***Ingress Health Check***.
