@@ -25,5 +25,5 @@ $ kubectl get svc wp-svc-loadbalancer --kubeconfig="./kube-conf"
 $ kubectl get ingress  --kubeconfig="./kube-conf"
 ```
 ## Note   
-Start ingress takes 10 minutes or more.
+Start ingress takes 10 minutes or more.   
 There are problems whith ***Ingress Health Check***.
