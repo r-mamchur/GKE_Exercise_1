@@ -1,0 +1,42 @@
+# readinessProbe:  ls replace httpGet and Ingreaa Health check  not ready
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: moodle-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: moodle
+    spec:
+      nodeSelector:
+        node: "web"
+      containers:
+      - name: moodle-con
+        image: rmamchur/apache:2
+        readinessProbe:
+          periodSeconds: 10
+          httpGet:
+            path: /install/welcome.html 
+            port: 80
+        readinessProbe:  
+          exec:
+            command:
+            - ls
+            - /var/www/ready
+        ports:
+        - name: http
+          containerPort: 80
+        volumeMounts:
+        - name: moodle-pvc 
+          mountPath: /var/www
+        resources:
+          requests:
+            cpu: 100m
+      volumes:
+      - name: moodle-pvc 
+        persistentVolumeClaim:
+          claimName: moodle-pvc 
+

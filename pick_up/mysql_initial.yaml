@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-initial
+spec:
+  securityContext:
+    fsGroup: 27
+    runAsUser: 27
+  containers:
+  - name: main
+    image: rmamchur/i_my:3
+    volumeMounts:
+    - name: mysql-pvc 
+      mountPath: /var/lib/mysql
+    command: [ "sh", "-c", "/tmp/init_db.sh" ]
+#    command: ["sleep", "9999999"]
+
+#    command: ["echo 1> /tmp/1 && echo 2> /tmp/2 && sleep 9999999"]
+#    command: ["/bin/sh"]
+#    args: ["-c", "while true; do echo hello >>/tmp/1; sleep 10;done"]
+#    args: ["-c", "echo tt >> /tmp/1"]
+  restartPolicy: Never
+  volumes:
+  - name: mysql-pvc 
+    persistentVolumeClaim:
+      claimName: mysql-pvc 
+

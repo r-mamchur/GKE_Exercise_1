@@ -1,0 +1,21 @@
+FROM centos:7
+
+RUN yum install -y mc yum-utils \
+   && rpm -Uvh  https://repo.mysql.com/yum/mysql-5.7-community/el/7/x86_64/mysql-community-release-el7-7.noarch.rpm \
+   && yum-config-manager -q -y --enable mysql57-community \
+   && yum-config-manager -q -y --disable mysql56-community \
+   && yum install -y mysql-community-server \
+   && yum clean all
+
+EXPOSE 3306
+
+COPY init_db.sh /tmp/init_db.sh
+
+RUN chmod +x /tmp/init_db.sh
+
+USER mysql
+
+# In Docker for run init_db.sh
+#CMD ["usr/sbin/mysqld"]
+
+ENTRYPOINT ["/usr/sbin/mysqld"]

@@ -1,0 +1,34 @@
+kind: List
+apiVersion: v1
+
+items:
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: wp-pvc 
+  spec:
+    resources:
+      requests:
+        storage: 100Mi
+    accessModes:
+      - ReadWriteOnce
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: moodle-pvc 
+  spec:
+    resources:
+      requests:
+        storage: 1Gi
+    accessModes:
+      - ReadWriteOnce
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: mysql-pvc 
+  spec:
+    resources:
+      requests:
+        storage: 100Mi
+    accessModes:
+      - ReadWriteOnce

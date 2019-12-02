@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: wp-initial
+spec:
+  securityContext:
+    fsGroup: 48
+    runAsUser: 48
+  containers:
+  - name: main
+    image: busybox
+    securityContext:
+      runAsUser: 48
+    volumeMounts:
+    - name: wp-pvc
+      mountPath: /wp
+    terminationMessagePath: /var/termination-reason
+    command: [ "sh", "-c", "wget https://wordpress.org/latest.tar.gz -O - | tar -xz -f - -C /wp/ ; mv -f /wp/wordpress/* /wp" ]
+#    command: ["sleep", "9999999"]
+#    command: ["echo 1> /tmp/1 && echo 2> /tmp/2 && sleep 9999999"]
+#    command: ["/bin/sh"]
+#    args: ["-c", "while true; do echo hello >>/tmp/1; sleep 10;done"]
+#    args: ["-c", "echo tt >> /tmp/1"]
+  restartPolicy: Never
+  volumes:
+  - name: wp-pvc
+    persistentVolumeClaim:
+      claimName: wp-pvc 

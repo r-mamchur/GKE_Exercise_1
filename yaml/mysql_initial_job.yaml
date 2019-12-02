@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mysql-initial-job
+spec:
+  template:
+    metadata:
+      labels:
+        job: mysql-initial-job
+    spec:
+      securityContext:
+        fsGroup: 27
+        runAsUser: 27
+      nodeSelector:
+        node: "mysql"
+      containers:
+      - name: main
+        image: rmamchur/i_my:2
+        volumeMounts:
+        - name: mysql-pvc 
+          mountPath: /var/lib/mysql
+        command: [ "sh", "-c", "/tmp/init_db.sh" ]
+      restartPolicy: OnFailure
+      volumes:
+      - name: mysql-pvc 
+        persistentVolumeClaim:
+          claimName: mysql-pvc 
+

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: moodle-initial
+spec:
+#  securityContext:
+#    fsGroup: 48
+#    runAsUser: 48
+  nodeSelector:
+    node: "web"
+  containers:
+  - name: main
+    image: rmamchur/apache:2
+#    securityContext:
+#      runAsUser: 48
+    volumeMounts:
+    - name: moodle-pvc
+      mountPath: /var/www
+    terminationMessagePath: /var/termination-reason
+#    command: [ "sh", "-c", "wget https://download.moodle.org/download.php/direct/stable38/moodle-3.8.tgz -O - | tar -xz -f - -C /moodle/ ; mv -f /moodle/moodle /moodle/html; mkdir /moodle/moodledata" ]
+    command: ["sleep", "9999999"]
+  restartPolicy: Never
+  volumes:
+  - name: moodle-pvc 
+    persistentVolumeClaim:
+      claimName: moodle-pvc 

@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wp-moodle-ingress
+spec:
+  rules:
+  - host: wp.example.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: wp-svc-nodeport
+          servicePort: 80
+  - host: moodle.example.com
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: moodle-svc-nodeport
+          servicePort: 80
+
+  - http:
+      paths:
+      - backend:
+          serviceName: wp-svc-nodeport
+          servicePort: 80
+
+

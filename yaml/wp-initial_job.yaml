@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: wp-initial-job
+spec:
+  template:
+    metadata:
+      labels:
+        job: wp-initial-job
+    spec:
+#      securityContext:
+#        fsGroup: 48
+#        runAsUser: 48
+      nodeSelector:
+        node: "web"
+      containers:
+      - name: main
+        image: busybox
+        volumeMounts:
+        - name: wp-data
+          mountPath: /wp
+        command: [ "sh", "-c", "wget https://wordpress.org/latest.tar.gz -O - | tar -xz -f - -C /var/ ; mv -f /var/wordpress/* /wp " ]
+      restartPolicy: OnFailure
+      volumes:
+      - name: wp-data
+        persistentVolumeClaim: 
+          claimName: wp-pvc 

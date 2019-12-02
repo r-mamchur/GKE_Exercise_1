@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta2
+kind: ReplicaSet
+metadata:
+  name: mysql-rs
+  labels:
+    app: mysql-rs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      nodeSelector:
+        node: "mysql"
+      securityContext:
+        fsGroup: 27
+        runAsUser: 27
+      containers:
+      - name: mysql
+        image: rmamchur/i_my:3
+        volumeMounts:
+        - name: mysql-pvc 
+          mountPath: /var/lib/mysql
+      restartPolicy: Always
+      volumes:
+      - name: mysql-pvc 
+        persistentVolumeClaim:
+          claimName: mysql-pvc 
