@@ -11,6 +11,22 @@ spec:
     spec:
       nodeSelector:
         node: "web"
+      initContainers:
+      - name: init-wp
+        image: busybox
+        volumeMounts:
+        - name: wp-pvc 
+          mountPath: /var/www/html
+        command:
+        - sh
+        - -c
+        - 'while true; do ls /var/www/html/readme.html && break; sleep 2; done; echo "WP is initialized."'
+      - name: init-db
+        image: busybox
+        command:
+        - sh
+        - -c
+        - 'until nslookup mysql; do echo waiting for mydb; sleep 2; done; echo "MySql is run."'
       containers:
       - name: wp-con
         image: rmamchur/apache:2
@@ -30,7 +46,7 @@ spec:
           subPath: wp-config.php
         resources:
           requests:
-            cpu: 100m
+            cpu: 200m
       volumes:
       - name: wp-pvc 
         persistentVolumeClaim:

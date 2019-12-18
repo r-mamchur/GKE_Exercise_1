@@ -10,6 +10,13 @@ spec:
     spec:
       nodeSelector:
         node: "web"
+      initContainers:
+      - name: init-db
+        image: rmamchur/i_my:2
+        command:
+        - sh
+        - -c
+        - 'until mysqladmin --host=mysql --user=moodle --password="Passw0rd(" ping; do echo waiting for mydb; sleep 2; done; echo "MySql is run."'
       containers:
       - name: main
         image: rmamchur/apache:2

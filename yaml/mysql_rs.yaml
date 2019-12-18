@@ -19,6 +19,16 @@ spec:
       securityContext:
         fsGroup: 27
         runAsUser: 27
+      initContainers:
+      - name: init-mysql-rs
+        image: busybox
+        volumeMounts:
+        - name: mysql-pvc
+          mountPath: /var/lib/mysql
+        command:
+        - sh
+        - -c
+        - 'while true; do ls /var/lib/mysql/wp && break; sleep 2; done; echo "MyDql is initialized."'
       containers:
       - name: mysql
         image: rmamchur/i_my:3

@@ -8,7 +8,10 @@ provider "google" {
 resource "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1-f"
-    
+
+      # Roman Mamchur - below recommendation from terraform - 
+      #    but I'm not deleting the node pool for development speed
+      # Terraform recomended:
       # We can't create a cluster with no node pool defined, but we want to only use
       # separately managed node pools. So we create the smallest possible default
       # node pool and immediately delete it.
@@ -33,7 +36,13 @@ resource "google_container_node_pool" "web_nodes" {
   location   = "us-central1-f"
   cluster    = "${google_container_cluster.primary.name}"
 
-  node_count = 1
+#  node_count = 1
+  initial_node_count = 1
+  autoscaling { 
+             min_node_count = 1 
+             max_node_count = 3
+  }
+
   node_config {
     preemptible  = var.preemptible
     machine_type = var.machine_type_web

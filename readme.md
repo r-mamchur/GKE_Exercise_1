@@ -7,6 +7,7 @@ Apache and MySql images is built - Dockerfiles are here.
 In MySql conteiner user is *****mysql*****, but Apache  user is *****root*****.
 
 At first each component is initialized by Workload ***kind: Job*** then runs as ***Deployment*** or ***ReplicationSet***.   
+But the startup order doesn't ***matter***, because the ***initial containers*** provide the correct sequence.    
 Script ***moodle_init.sh*** is ***`mounted`*** in Pod directly from github whith ***gitRepo volume***.
 
 ***wp-config.php*** is mounted as ***secret***.   

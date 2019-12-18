@@ -18,6 +18,11 @@ variable "machine_type_web" {
   description = "... for web pods - Apache"
   default     = "n1-standard-2"
 }
+#variable "machine_type_web" {
+#  description = "... for web pods - Apache"
+#  default     = "g1-small"
+#}
+
 variable "machine_type_db" {
   description = "... for web pods - MySQL"
   default     = "n1-standard-1"
@@ -27,7 +32,7 @@ variable "cluster_user_name" {
   default     = "terra"
 }
 variable "cluster_user_password" {
-  default     = "Xioxox(9xxxxxxxx"
+  default     = "Vzhe viter hytaie pozzhovklu travu"
 }
 
   
