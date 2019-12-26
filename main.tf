@@ -1,4 +1,4 @@
-provider "google" {
+provider "google-beta" {
   credentials = file(var.credentials_file)
   project = var.project
   region  = "us-central1"
@@ -8,6 +8,7 @@ provider "google" {
 resource "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = "us-central1-f"
+  provider = google-beta
 
       # Roman Mamchur - below recommendation from terraform - 
       #    but I'm not deleting the node pool for development speed
@@ -17,6 +18,10 @@ resource "google_container_cluster" "primary" {
       # node pool and immediately delete it.
 #      remove_default_node_pool = true
       initial_node_count = 1
+
+      vertical_pod_autoscaling { 
+         enabled = true 
+      }
 
       master_auth {
         username = var.cluster_user_name
@@ -34,7 +39,8 @@ resource "google_container_cluster" "primary" {
 resource "google_container_node_pool" "web_nodes" {
   name       = "node-pool-web"
   location   = "us-central1-f"
-  cluster    = "${google_container_cluster.primary.name}"
+  cluster    = google_container_cluster.primary.name
+  provider = google-beta
 
 #  node_count = 1
   initial_node_count = 1
@@ -66,7 +72,8 @@ resource "google_container_node_pool" "web_nodes" {
 resource "google_container_node_pool" "mysql_nodes" {
   name       = "node-pool-mysql"
   location   = "us-central1-f"
-  cluster    = "${google_container_cluster.primary.name}"
+  cluster    = google_container_cluster.primary.name
+  provider = google-beta
 
   node_count = 1
   node_config {
@@ -92,6 +99,7 @@ resource "google_container_node_pool" "mysql_nodes" {
 resource "google_compute_firewall" "allow-healthcheck" {
   name    = "endpoint"
   network =  "default"
+  provider = google-beta
 
   allow {
     protocol = "tcp"

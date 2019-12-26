@@ -16,7 +16,7 @@ variable "preemptible" {
 
 variable "machine_type_web" {
   description = "... for web pods - Apache"
-  default     = "n1-standard-2"
+  default     = "n1-standard-1"
 }
 #variable "machine_type_web" {
 #  description = "... for web pods - Apache"

@@ -15,7 +15,7 @@ spec:
         node: "mysql"
       containers:
       - name: main
-        image: rmamchur/i_my:2
+        image: rmamchur/i_my:3
         volumeMounts:
         - name: mysql-pvc 
           mountPath: /var/lib/mysql

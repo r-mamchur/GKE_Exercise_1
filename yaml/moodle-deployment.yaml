@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: moodle-deployment
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -43,7 +43,9 @@ spec:
           mountPath: /var/www
         resources:
           requests:
-            cpu: 100m
+            cpu: 70m
+          limits:
+            cpu: 80m
       volumes:
       - name: moodle-pvc 
         persistentVolumeClaim:

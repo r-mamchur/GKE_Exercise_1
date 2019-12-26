@@ -35,6 +35,11 @@ spec:
         volumeMounts:
         - name: mysql-pvc 
           mountPath: /var/lib/mysql
+        resources:
+          requests:
+            cpu: 200m
+          limits:
+            cpu: 400m
       restartPolicy: Always
       volumes:
       - name: mysql-pvc 

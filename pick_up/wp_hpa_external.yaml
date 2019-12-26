@@ -1,0 +1,22 @@
+# https://cloud.google.com/kubernetes-engine/docs/tutorials/custom-metrics-autoscaling
+# https://blog.doit-intl.com/autoscaling-k8s-hpa-with-google-http-s-load-balancer-rps-stackdriver-metric-92db0a28e1ea
+
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wp-deployment-hpa-external
+spec:
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: External
+    external:
+      metricName: loadbalancing.googleapis.com|https|request_count
+      metricSelector:
+        matchLabels:
+          resource.labels.forwarding_rule_name: k8s-fw-default-wp-moodle-ingress--5c8ec578df5819d2
+      targetAverageValue: "100m"
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: wp-deployment

@@ -21,12 +21,18 @@ spec:
         - sh
         - -c
         - 'while true; do ls /var/www/html/readme.html && break; sleep 2; done; echo "WP is initialized."'
+        resources:
+          requests:
+            cpu: 50m
       - name: init-db
         image: busybox
         command:
         - sh
         - -c
         - 'until nslookup mysql; do echo waiting for mydb; sleep 2; done; echo "MySql is run."'
+        resources:
+          requests:
+            cpu: 50m
       containers:
       - name: wp-con
         image: rmamchur/apache:2
@@ -46,7 +52,11 @@ spec:
           subPath: wp-config.php
         resources:
           requests:
-            cpu: 200m
+            cpu: 30m
+            memory: 50Mi
+          limits:
+            cpu: 300m
+            memory: 500Mi
       volumes:
       - name: wp-pvc 
         persistentVolumeClaim:

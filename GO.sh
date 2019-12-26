@@ -30,6 +30,11 @@ kubectl create -f ./yaml/wp-svc-loadbalancer.yaml --kubeconfig="./kube-conf"
 # Ingress
 kubectl create -f ./yaml/main-ingress.yaml --kubeconfig="./kube-conf"
 
+# Autoscalers
+kubectl create -f ./yaml/limit_range.yaml  --kubeconfig="./kube-conf"
+kubectl create -f ./yaml/wp_vpa.yaml --kubeconfig="./kube-conf"
+kubectl create -f ./yaml/moodle_hpa.yaml --kubeconfig="./kube-conf"
+
 # delete after completed
 # kubectl delete jobs mysql-initial-job wp-initial-job moodle-initial-job --kubeconfig="./kube-conf"
 

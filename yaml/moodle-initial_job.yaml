@@ -12,7 +12,7 @@ spec:
         node: "web"
       initContainers:
       - name: init-db
-        image: rmamchur/i_my:2
+        image: rmamchur/i_my:3
         command:
         - sh
         - -c
